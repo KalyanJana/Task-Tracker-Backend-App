@@ -2,11 +2,15 @@ import mongoose from 'mongoose'
 
 const connectToMongoDB = async()=>{
     try{
+
+        const mongoURL = process.env.NODE_ENV === "Development" ? process.env.MONGO_TEST_URL : process.env.MONGO_PROD_URL;
+        const dbName = process.env.NODE_ENV === "Development" ? "task-tracker-test" : "task-tracker";
+    
         //Connect to MongoDB
-        await mongoose.connect(process.env.MONGO_URL,{
+        await mongoose.connect(mongoURL,{
             useNewUrlParser : true,
             useUnifiedTopology : true,
-            dbName : "task-tracker"
+            dbName : dbName
         })
         //Connecton established
         console.log("connected to MongoDB")
